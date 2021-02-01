@@ -1,25 +1,22 @@
-//Using global variables for assigning roles
-// const ADMIN = 0;
-// const AUTHOR = 1;
-//ADMIN receives 0 and AUTHOR 1
-var Role;
-(function (Role) {
-    Role["ADMIN"] = "Authro";
-    Role[Role["AUTHOR"] = void 0] = "AUTHOR";
-})(Role || (Role = {}));
-//Here TypeScript automatically infers the type
-var person = {
-    name: "Shubh",
-    age: 19,
-    hobbies: ["Reading", "Programming"],
-    role: Role.ADMIN
-};
-//Here we are explicitly declaring the type
-// const person: {
-//   name: string;
-//   age: number;
-// } = {
-//   name: "Shubh",
-//   age: 19,
-// };
-console.log(person.name, person.role);
+function add(n1, n2, resultConversion) {
+    var result;
+    if ((typeof n1 === "number" && typeof n2 === "number") ||
+        resultConversion === "as-number") {
+        result = +n1 + +n2;
+    }
+    else {
+        result = n1.toString() + n2.toString();
+    }
+    return result;
+    //   if (resultConversion === "as-number") {
+    //     return +result;
+    //   } else {
+    //     return result;
+    //   }
+}
+var combinedAges = add(19, 19, "as-number");
+console.log(combinedAges);
+var combinedStringAges = add("19", "19", "as-text");
+console.log(combinedStringAges);
+var fullName = add("Shubh", "Agrawal", "as-text");
+console.log(fullName);

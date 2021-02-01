@@ -1,27 +1,33 @@
-//Using global variables for assigning roles
-// const ADMIN = 0;
-// const AUTHOR = 1;
+type Combinable = number | string;
+type ConversionType = "as-number" | "as-text";
 
-//ADMIN receives 0 and AUTHOR 1
-enum Role {
-  ADMIN,
-  AUTHOR,
+function add(
+  n1: Combinable,
+  n2: number | string,
+  resultConversion: ConversionType
+) {
+  let result;
+  if (
+    (typeof n1 === "number" && typeof n2 === "number") ||
+    resultConversion === "as-number"
+  ) {
+    result = +n1 + +n2;
+  } else {
+    result = n1.toString() + n2.toString();
+  }
+  return result;
+  //   if (resultConversion === "as-number") {
+  //     return +result;
+  //   } else {
+  //     return result;
+  //   }
 }
 
-//Here TypeScript automatically infers the type
-const person = {
-  name: "Shubh",
-  age: 19,
-  hobbies: ["Reading", "Programming"],
-  role: Role.ADMIN,
-};
+let combinedAges = add(19, 19, "as-number");
+console.log(combinedAges);
 
-//Here we are explicitly declaring the type
-// const person: {
-//   name: string;
-//   age: number;
-// } = {
-//   name: "Shubh",
-//   age: 19,
-// };
-console.log(person.name, person.role);
+let combinedStringAges = add("19", "19", "as-text");
+console.log(combinedStringAges);
+
+let fullName = add("Shubh", "Agrawal", "as-text");
+console.log(fullName);
