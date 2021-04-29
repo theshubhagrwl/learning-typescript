@@ -7,7 +7,7 @@ class Department {
   //   }
 
   //shorthand to creating and init the props using constructor
-  constructor(private id: string, public name: string) {
+  constructor(private readonly id: string, public name: string) {
     //     this.name = n;
   }
 
@@ -25,12 +25,38 @@ class Department {
   }
 }
 
-const accounting = new Department("d1", "Accounting");
-accounting.addEmployee("Shubh");
-accounting.addEmployee("Jam");
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
+    super(id, "IT");
+    this.admins = admins;
+  }
+}
 
-accounting.describe();
-accounting.printEmployeeInfo();
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "IT");
+  }
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
+const it = new ITDepartment("d1", ["Shubh"]);
+it.addEmployee("Shubh");
+it.addEmployee("Jam");
+
+it.describe();
+it.printEmployeeInfo();
+
+console.log(it);
+
+const accounting = new AccountingDepartment("d2", []);
+accounting.addReport("Something went wrong...");
+accounting.printReports();
 
 //This gives an error cause we have passed Department as type in describe function
 // const accountingCopy = { describe: accounting.describe };
