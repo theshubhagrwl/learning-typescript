@@ -34,11 +34,29 @@ class ITDepartment extends Department {
 }
 
 class AccountingDepartment extends Department {
+  private lastReport: string;
+
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error("No Report Found");
+  }
+
+  set mostRecentReport(value: string) {
+    if (!value) {
+      throw new Error("PLease pass a valid value");
+    }
+    this.addReport(value);
+  }
+
   constructor(id: string, private reports: string[]) {
-    super(id, "IT");
+    super(id, "Accounting");
+    this.lastReport = reports[0];
   }
   addReport(text: string) {
     this.reports.push(text);
+    this.lastReport = text;
   }
   printReports() {
     console.log(this.reports);
@@ -55,8 +73,13 @@ it.printEmployeeInfo();
 console.log(it);
 
 const accounting = new AccountingDepartment("d2", []);
-accounting.addReport("Something went wrong...");
+
+accounting.mostRecentReport = "Next report is here";
+
+accounting.addReport("Here is my report...");
 accounting.printReports();
+
+console.log(accounting.mostRecentReport);
 
 //This gives an error cause we have passed Department as type in describe function
 // const accountingCopy = { describe: accounting.describe };
