@@ -1,83 +1,49 @@
-class Department {
-  private employees: string[] = [];
-  static fiscalYear = 2021;
+interface Greetable {
+  name: string;
+  age: number;
 
-  //shorthand to creating and init the props using constructor
-  constructor(private readonly id: string, public name: string) {}
+  greet(phrase: string): void;
+}
 
-  static createEmployee(name: string) {
-    return { name: name };
+//An interface can be used with Class
+class Person implements Greetable {
+  name: string;
+  age = 30;
+
+  constructor(str: string) {
+    this.name = str;
   }
 
-  //this can be passed as an argument in function with a type
-  describe(this: Department) {
-    console.log(
-      `Department ${this.id}: ${this.name} , year: ${Department.fiscalYear}`
-    );
-  }
-
-  addEmployee(employee: string) {
-    this.employees.push(employee);
-  }
-  printEmployeeInfo() {
-    console.log(this.employees.length);
-    console.log(this.employees);
+  greet(phrase: string) {
+    console.log(phrase + " " + this.name);
   }
 }
 
-class ITDepartment extends Department {
-  admins: string[];
-  constructor(id: string, admins: string[]) {
-    super(id, "IT");
-    this.admins = admins;
-  }
+let user1: Greetable;
+
+user1 = {
+  name: "Shubh",
+  age: 19,
+  greet(phrase: string) {
+    console.log(phrase);
+  },
+};
+
+user1.greet("Namaste");
+
+//It works both ways
+let user2 = new Person("SHUBH");
+console.log(user1);
+console.log(user2);
+
+//Interface as function types
+
+// type AddFn = (a:number, b:number) => number
+interface AddFn {
+  (a: number, b: number): number; //kind of anonymous function
 }
 
-class AccountingDepartment extends Department {
-  private lastReport: string;
-
-  get mostRecentReport() {
-    if (this.lastReport) {
-      return this.lastReport;
-    }
-    throw new Error("No Report Found");
-  }
-
-  set mostRecentReport(value: string) {
-    if (!value) {
-      throw new Error("PLease pass a valid value");
-    }
-    this.addReport(value);
-  }
-
-  constructor(id: string, private reports: string[]) {
-    super(id, "Accounting");
-    this.lastReport = reports[0];
-  }
-  addReport(text: string) {
-    this.reports.push(text);
-    this.lastReport = text;
-  }
-  printReports() {
-    console.log(this.reports);
-  }
-}
-
-const employee1 = Department.createEmployee("Shubh");
-console.log(employee1);
-
-const it = new ITDepartment("d1", ["Shubh"]);
-it.addEmployee("Shubh");
-it.addEmployee("Jam");
-
-it.describe();
-it.printEmployeeInfo();
-
-console.log(it);
-
-const accounting = new AccountingDepartment("d2", []);
-
-accounting.mostRecentReport = "Next report is here";
-accounting.addReport("Here is my report...");
-accounting.printReports();
-console.log(accounting.mostRecentReport);
+let add: AddFn;
+add = (n1: number, n2: number) => {
+  return n1 + n2;
+};
